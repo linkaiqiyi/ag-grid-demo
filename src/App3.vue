@@ -1,29 +1,23 @@
 <template>
-  <div>
-    <button @click="addRow">添加行</button>
-    <ag-grid-vue
-      style="width: 100%; height: calc(100vh - 100px)"
-      class="ag-theme-alpine"
-      :columnDefs="columnDefs"
-      :rowData="rowData"
-      :gridOptions="gridOptions"
-      :framework-components="gridOptions.frameworkComponents"
-      :rowDragManaged="true"
-      :isFullWidthCell="handleIsFullWidthCell"
-      :fullWidthCellRenderer="'FullWidthCellRenderer'"
-      :defaultColDef="defaultColDef"
-      :postSort="postSort"
-      :doesExternalFilterPass="doesExternalFilterPass"
-      :isExternalFilterPresent="isExternalFilterPresent"
-      :groupDisplayType="'custom'"
-      :immutableData="true"
-      :getRowNodeId="getRowNodeId"
-      @grid-ready="onGridReady"
-      @sortChanged="handleSortChanged"
-      @filterChanged="handleFilterChanged"
-    >
-    </ag-grid-vue>
-  </div>
+  <ag-grid-vue
+    style="width: 100%; height: calc(100vh - 16px)"
+    class="ag-theme-alpine"
+    :columnDefs="columnDefs"
+    :rowData="rowData"
+    :gridOptions="gridOptions"
+    :rowDragManaged="true"
+    :isFullWidthCell="handleIsFullWidthCell"
+    :fullWidthCellRenderer="fullWidthCellRenderer"
+    :defaultColDef="defaultColDef"
+    :postSort="postSort"
+    :doesExternalFilterPass="doesExternalFilterPass"
+    :isExternalFilterPresent="isExternalFilterPresent"
+    :groupDisplayType="'custom'"
+    @grid-ready="onGridReady"
+    @sortChanged="handleSortChanged"
+    @filterChanged="handleFilterChanged"
+  >
+  </ag-grid-vue>
 </template>
 
 <script>
@@ -48,6 +42,7 @@ export default {
   name: "App",
   components: {
     AgGridVue,
+    fullWidthCellRenderer: FullWidthCellRenderer,
   },
 
   data: function () {
@@ -60,9 +55,8 @@ export default {
             {
               field: "country",
               minWidth: 200,
-              sortable: false,
+              sortable: true,
               rowDrag: true,
-              // hide: true,
             },
           ],
         },
@@ -100,19 +94,25 @@ export default {
       defaultColDef: {
         flex: 1,
         minWidth: 100,
-        // enableValue: true,
-        // enableRowGroup: true,
-        // enablePivot: true,
         sortable: true,
         filter: true,
-        comparator: () => 0,
-        menuTabs: ["filterMenuTab"]
+        menuTabs: ['filterMenuTab'],
+        comparator: (valueA, valueB, nodeA, nodeB, isInverted) => {
+          if (
+            valueA == valueB ||
+            (nodeA && nodeA.data.isfull) ||
+            (nodeB && nodeB.data.isfull)
+          ) {
+            return 0;
+          }
+          _this.sortchange = true;
+          return valueA > valueB ? 1 : -1;
+        },
       },
       country: null,
       sortchange: false,
-      gridOptions: {
-        frameworkComponents: { FullWidthCellRenderer },
-      },
+      gridOptions: {},
+      fullWidthCellRenderer: null,
       sideBar: null,
       rowData: null,
     };
@@ -138,15 +138,10 @@ export default {
       }
     }, 0),
   },
+  created() {
+    this.fullWidthCellRenderer = "fullWidthCellRenderer";
+  },
   methods: {
-    createFullRow(node) {
-      const newData = {
-        isfull: true,
-      };
-    },
-    addRow(node) {
-      this.gridApi.applyTransaction({ add: [{ isfull: true }], addIndex: 3 });
-    },
     onGridReady(params) {
       this.gridApi = params.api;
       this.gridColumnApi = params.columnApi;
@@ -170,15 +165,11 @@ export default {
       };
 
       updateData(data);
-      // fetch("https://www.ag-grid.com/example-assets/olympic-winners.json")
-      //   .then((resp) => resp.json())
-      //   .then((data) => updateData(data));
     },
     postSort(rowNodes) {
-      console.log(rowNodes);
-    },
-    getRowNodeId(node) {
-      return node.age + node.country + node.date;
+      if (rowNodes.length) {
+          // this.sortchange = true;
+      }
     },
     handleIsFullWidthCell(rowNode) {
       return rowNode.data.isfull;
@@ -194,27 +185,15 @@ export default {
       // return true;
     },
     handleFilterChanged() {
-      let rows = [];
-      this.gridApi.forEachNode((rowNode) => {
-        if (rowNode.displayed) {
-          rows.push(JSON.parse(JSON.stringify(rowNode.data)));
-        } else if (rowNode.data && rowNode.data.isfull) {
-          rows.push(JSON.parse(JSON.stringify(rowNode.data)));
-        }
-        // if(rowNode.data && rowNode.data.isfull) {
-        //   console.log(rowNode);
-        //   rowNode.setDisplayed = () => {}
-        //   rowNode.setRowIndex = () => {}
-        // }
-      });
-      // this.country.map((y) => {
-      //     temp = [...temp, { isfull: true, country: y }];
-      //   });
-      //   data = [...data, ...temp].sort((a, b) =>
-      //     a.country > b.country ? 0 : -1
-      //   );
-      //   params.api.setRowData(data);
-      this.gridApi.setRowData(rows);
+      // let k = 0;
+      // this.gridApi.forEachNode((rowNode) => {
+      //   if (rowNode.data && rowNode.data.isfull) {
+      //     rowNode.setDisplayed(true);
+      //     rowNode.setRowIndex(parseInt(rowNode.rowTop / rowNode.rowHeight));
+      //     console.log(rowNode);
+      //   }
+      // });
+      // this.sortchange = true;
     },
     handleSortChanged(params) {
       // let rows = params.api.rowData
