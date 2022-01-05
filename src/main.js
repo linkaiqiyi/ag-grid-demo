@@ -5,6 +5,7 @@ import App3 from './App3.vue'
 import App4 from './App4.vue'
 import App5 from './App5.vue'
 import App6 from './App6.vue'
+import App7 from './App7.vue'
 
 Vue.config.productionTip = false
 

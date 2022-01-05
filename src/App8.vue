@@ -1,10 +1,6 @@
 <template>
   <div style="height: 100%">
     <button @click="addRow">添加行</button>
-    <button v-on:click="reverseItems()">Reverse</button>
-    <!-- 
-            :row-data="gridOptions.rowData"
-     -->
     <ag-grid-vue
       style="width: 100%; height: calc(100vh - 100px)"
       class="ag-theme-alpine"
@@ -17,8 +13,9 @@
       :gridOptions="gridOptions"
       :groupDisplayType="'groupRows'"
       :rowDragManaged="false"
+      :immutableData="true"
       :suppressMoveWhenRowDragging="true"
-
+      :row-data="gridOptions.rowData"
       :groupRowRendererFramework="'FullWidthCellRenderer'"
       :groupDefaultExpanded="groupDefaultExpanded"
       :isFullWidthCell="handleIsFullWidthCell"
@@ -40,31 +37,7 @@ import "ag-grid-community/dist/styles/ag-theme-alpine.css";
 
 import olympicWinnersData from "./data4";
 import FullWidthCellRenderer from "./components/fullWidthCellRenderer";
-function throttle(fn, wait) {
-  let pre = Date.now();
-  return function () {
-    let context = this;
-    let args = arguments;
-    let now = Date.now();
-    if (now - pre >= wait) {
-      fn.apply(context, args);
-      pre = Date.now();
-    }
-  };
-}
-function debounce(fn, delay) {
-  var timer = null; // 声明计时器
-  return function () {
-    var context = this;
-    var args = arguments;
-    clearTimeout(timer);
-    timer = setTimeout(function () {
-      fn.apply(context, args);
-    }, delay);
-  };
-}
 
-// var immutableStore;
 export default {
   components: {
     "ag-grid-vue": AgGridVue,
@@ -125,7 +98,6 @@ export default {
       },
       groupDefaultExpanded: null,
     };
-    // ag-center-cols-container row-index="1"
   },
   created() {
     this.groupDefaultExpanded = 1;
@@ -162,10 +134,6 @@ export default {
             dom.style.backgroundColor = "#ffffff";
           }
         } else {
-          // const dom = document.querySelector(".ag-dnd-ghost");
-          // if (dom) {
-          //   dom.style.backgroundColor = "#ffe8e8";
-          // }
           if (event.overNode && event.overNode.data) {
             let overNodes = event.overNode.parent.allLeafChildren;
             let lastNode = overNodes[overNodes.length - 1];
@@ -196,10 +164,6 @@ export default {
         );
         el && el.classList.add("hover-over");
       }
-    },
-    reverseItems() {
-      this.immutableStore.sort((a, b) => a.year - b.year);
-      this.gridApi.setRowData(this.immutableStore);
     },
     sleep() {
       return new Promise(resolve => {
@@ -265,26 +229,26 @@ export default {
       const state = this.gridColumnApi.getColumnState();
       const columnFilterState = this.gridApi.getFilterModel();
 
-      this.immutableStore = [];
+      let immutableStore = [];
       this.gridApi.forEachNode((node) => {
         if (!node.group) {
           if (needMoveData.findIndex((v) => v.id === node.data.id) === -1) {
-            this.immutableStore.push(node.data);
+            immutableStore.push(node.data);
           }
         }
       });
 
       if (groupMove || !up) {
-        let toIndex = this.immutableStore.findIndex((v) => v.id === overData.id);
-        this.immutableStore.splice(toIndex + 1, 0, ...needMoveData);
+        let toIndex = immutableStore.findIndex((v) => v.id === overData.id);
+        immutableStore.splice(toIndex + 1, 0, ...needMoveData);
       } else {
-        let toIndex = this.immutableStore.findIndex(
+        let toIndex = immutableStore.findIndex(
           (v) => v.groupId === overData.groupId
         );
-        this.immutableStore.splice(toIndex, 0, ...needMoveData);
+        immutableStore.splice(toIndex, 0, ...needMoveData);
       }
 
-      await this.gridApi.setRowData(this.immutableStore);
+      await this.gridApi.setRowData(immutableStore);
       this.gridColumnApi.applyColumnState({ state });
       this.gridApi.setFilterModel(columnFilterState);
 
@@ -327,9 +291,8 @@ export default {
       this.gridApi = params.api;
       this.gridColumnApi = params.columnApi;
 
-      this.immutableStore = olympicWinnersData
-      // this.gridOptions.rowData = olympicWinnersData;
-      params.api.setRowData(olympicWinnersData);
+      this.gridOptions.rowData = olympicWinnersData;
+      // params.api.setRowData(olympicWinnersData);
     },
   },
 };
