@@ -7,9 +7,10 @@
     "build": "vue-cli-service build"
   },
   "dependencies": {
+    "@vue/composition-api": "^1.4.3",
     "ag-grid-community": "^25.0.0",
-    "ag-grid-vue": "^25.0.0",
     "ag-grid-enterprise": "^25.0.0",
+    "ag-grid-vue": "^25.0.0",
     "core-js": "^3.6.5",
     "vue": "^2.6.11",
     "vue-property-decorator": "^8.5.1"
