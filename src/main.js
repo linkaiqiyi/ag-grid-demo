@@ -9,6 +9,7 @@ import App7 from './App7.vue'
 import App9 from './App9.vue'
 import App11 from './App11.vue'
 import App12 from './App12.vue'
+import App13 from './App13.vue'
 
 import VueCompositionAPI from '@vue/composition-api'
 
@@ -21,5 +22,5 @@ LicenseManager.prototype.isDisplayWatermark = () => false
 LicenseManager.prototype.outputMissingLicenseKey = () => {}
 
 new Vue({
-  render: h => h(App12),
+  render: h => h(App13),
 }).$mount('#app')
