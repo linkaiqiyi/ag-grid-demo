@@ -26,7 +26,7 @@ export default function useAgGrid() {
             headerName: 'title3',
             children: [
                 { field: "sport" },
-                { field: "gold" },
+                { field: "gold", rowGroup: true},
                 { field: "silver" },
                 { field: "bronze" },
             ]
@@ -41,7 +41,7 @@ export default function useAgGrid() {
         return new Promise(resolve => {
             setTimeout(() => {
                 resolve(olympicWinnersData.slice())
-            }, 2000);
+            }, 500);
         })
     }
 
@@ -54,12 +54,11 @@ export default function useAgGrid() {
 
     const addAgGridData = function () {
         let data = olympicWinnersData.sort(() => [-1, 0, 1][Math.floor(Math.random() * 3)]).slice()
-        console.log(data.map(v => v.id));
         let temp = {
             athlete: '',
             age: 0,
             country: '',
-            year: 0,
+            year: 2000 + Math.floor(Math.random() * 5),
             date: '',
             sport: '',
             gold: 0,
@@ -69,13 +68,14 @@ export default function useAgGrid() {
             id: data.length + 1
         }
 
-        data.splice(Math.floor(Math.random() * data.length), 0, temp)
+        // data.splice(Math.floor(Math.random() * data.length), 0, temp)
+        data.unshift(temp)
 
         immutableStore.value = data
         gridApi.value.setRowData(immutableStore.value)
 
         gridApi.value.forEachNode(node => {
-            if (node.data.id === temp.id) {
+            if (node.data && node.data.id === temp.id) {
                 node.setSelected(true)
                 gridApi.value.ensureNodeVisible(node)
             } else {
@@ -103,11 +103,35 @@ export default function useAgGrid() {
         params.api.setRowData(immutableStore.value)
     }
 
+    const onRowDragMove = (event) => {
+        var movingNode = event.node;
+        var overNode = event.overNode;
+        var rowNeedsToMove = movingNode !== overNode;
+        if (rowNeedsToMove) {
+            var movingData = movingNode.data;
+            var overData = overNode.data;
+            var fromIndex = immutableStore.value.indexOf(movingData);
+            var toIndex = immutableStore.value.indexOf(overData);
+            var newStore = immutableStore.value.slice();
+            moveInArray(newStore, fromIndex, toIndex);
+            immutableStore.value = newStore;
+            gridApi.value.setRowData(newStore);
+            gridApi.value.refreshClientSideRowModel('group')
+        }
+        function moveInArray(arr, fromIndex, toIndex) {
+            var element = arr[fromIndex];
+            arr.splice(fromIndex, 1);
+            arr.splice(toIndex, 0, element);
+        }
+    }
+
     const gridOptions = reactive({
-        rowDragManaged: true,
+        rowDragManaged: false,
         immutableData: true,
         columnDefs: columnDefs,
-        getRowNodeId: getRowNodeId
+        getRowNodeId: getRowNodeId,
+        suppressMoveWhenRowDragging: true,
+        onRowDragEnd: onRowDragMove
     })
 
     const addTitle1 = function () {
@@ -117,7 +141,14 @@ export default function useAgGrid() {
         gridApi.value.setColumnDefs(columnDefs)
     }
 
+    const changeGroup = function () {
+        let item = immutableStore.value[0]
+        item.year = '2022'
+        gridApi.value.setRowData(immutableStore.value)
+        console.log(immutableStore.value.map(v => v.year))
+    }
+
     return {
-        gridApi, columnApi, gridOptions, immutableStore, onGridReady, reverseAgGridData, addAgGridData, addTitle1, deleteTitle1
+        gridApi, columnApi, gridOptions, immutableStore, onGridReady, reverseAgGridData, addAgGridData, addTitle1, deleteTitle1, changeGroup
     }
 }

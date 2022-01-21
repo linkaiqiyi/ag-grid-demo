@@ -4,6 +4,7 @@
     <button @click="addAgGridData">addAgGridData</button>
     <button @click="addTitle1">addTitle1</button>
     <button @click="deleteTitle1">deleteTitle1</button>
+    <button @click="changeGroup">changeGroup</button>
     <AgGridVue
       style="width: 100%; height: 100%"
       class="ag-theme-alpine"
@@ -37,6 +38,7 @@ export default {
       addAgGridData,
       addTitle1,
       deleteTitle1,
+      changeGroup,
     } = useAgGrid();
     return {
       gridAPi,
@@ -47,6 +49,7 @@ export default {
       addAgGridData,
       addTitle1,
       deleteTitle1,
+      changeGroup,
     };
   },
   methods: {},
