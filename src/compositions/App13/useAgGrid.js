@@ -18,7 +18,7 @@ export default function useAgGrid() {
         {
             headerName: 'title2',
             children: [
-                { field: "country", filter: true, editable: true },
+                { field: "country", filter: true, editable: true, sortable: true },
                 { field: "year", width: 100 },
             ]
         },
