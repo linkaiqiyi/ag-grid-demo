@@ -2,7 +2,7 @@ import { defineComponent } from "@vue/composition-api";
 
 import { reactive, ref, nextTick } from "@vue/composition-api"
 
-import olympicWinnersData from "../data4";
+import olympicWinnersData from "@/mock/data4";
 
 export default function compositionApp6() {
     let gridApi = ref(null);

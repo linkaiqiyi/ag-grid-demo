@@ -22,9 +22,9 @@
 
 <script>
 import { AgGridVue } from "ag-grid-vue";
-import FullWidthCellRenderer from "./components/fullWidthCellRenderer";
+import FullWidthCellRenderer from "@/components/fullWidthCellRenderer";
 import "ag-grid-enterprise";
-import data from "./data.js";
+import data from "@/mock/data.js";
 
 export function debounce(fn, delay) {
   var timer = null; // 声明计时器

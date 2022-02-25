@@ -22,7 +22,7 @@ import "ag-grid-enterprise";
 import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-alpine.css";
 
-import useAgGrid from "./compositions/App13/useAgGrid";
+import useAgGrid from "@/compositions/App13/useAgGrid";
 
 export default {
   components: {

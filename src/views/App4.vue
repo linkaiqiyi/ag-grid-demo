@@ -33,8 +33,8 @@ import "ag-grid-enterprise";
 import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-alpine.css";
 
-import olympicWinnersData from "./data4";
-import FullWidthCellRenderer from "./components/fullWidthCellRenderer";
+import olympicWinnersData from "@/mock/data4";
+import FullWidthCellRenderer from "@/components/fullWidthCellRenderer";
 function throttle(fn, wait) {
   let pre = Date.now();
   return function () {

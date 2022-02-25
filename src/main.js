@@ -1,15 +1,15 @@
 import Vue from "vue";
-import App from "./App.vue";
-import App2 from "./App2.vue";
-import App3 from "./App3.vue";
-import App4 from "./App4.vue";
-import App5 from "./App5.vue";
-import App6 from "./App6.vue";
-import App7 from "./App7.vue";
-import App9 from "./App9.vue";
-import App11 from "./App11.vue";
-import App12 from "./App12.vue";
-import App13 from "./App13.vue";
+import App from "@/views/App.vue";
+import App2 from "@/views/App2.vue";
+import App3 from "@/views/App3.vue";
+import App4 from "@/views/App4.vue";
+import App5 from "@/views/App5.vue";
+import App6 from "@/views/App6.vue";
+import App7 from "@/views/App7.vue";
+import App9 from "@/views/App9.vue";
+import App11 from "@/views/App11.vue";
+import App12 from "@/views/App12.vue";
+import App13 from "@/views/App13.vue";
 
 import { LicenseManager } from "ag-grid-enterprise";
 import VueCompositionAPI from "@vue/composition-api";
