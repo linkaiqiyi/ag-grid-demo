@@ -28,7 +28,7 @@
 
 <script>
 import { AgGridVue } from "ag-grid-vue";
-import FullWidthCellRenderer from "@/components/fullWidthCellRenderer";
+import FullWidthCellRenderer from "@/components/fullWidthCellRenderer.vue";
 import "ag-grid-enterprise";
 import data from "@/mock/data.js";
 
@@ -243,8 +243,8 @@ export default {
 </script>
 
 <style lang="scss">
-@import "~ag-grid-community/src/styles/ag-grid.scss";
-@import "~ag-grid-community/src/styles/ag-theme-alpine/sass/_ag-theme-alpine-mixin.scss";
+@import "~/ag-grid-community/src/styles/ag-grid.scss";
+@import "~/ag-grid-community/src/styles/ag-theme-alpine/sass/_ag-theme-alpine-mixin.scss";
 
 .ag-theme-alpine {
   @include ag-theme-alpine();

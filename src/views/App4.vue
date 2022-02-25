@@ -34,7 +34,7 @@ import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-alpine.css";
 
 import olympicWinnersData from "@/mock/data4";
-import FullWidthCellRenderer from "@/components/fullWidthCellRenderer";
+import FullWidthCellRenderer from "@/components/fullWidthCellRenderer.vue";
 function throttle(fn, wait) {
   let pre = Date.now();
   return function () {

@@ -1,6 +1,5 @@
-import { defineComponent } from "@vue/composition-api";
+import { defineComponent, reactive, ref, nextTick } from "@vue/composition-api";
 
-import { reactive, ref, nextTick } from "@vue/composition-api"
 import olympicWinnersData from "@/mock/data4";
 
 export default function useAgGrid() {

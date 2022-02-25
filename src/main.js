@@ -17,7 +17,7 @@ function importAll(r) {
   });
 }
 
-importAll(require.context('views', false, /.vue$/))
+importAll(require.context('@/views', false, /.vue$/))
 
 new Vue({
   render: (h) => h(Apps['App14'])
