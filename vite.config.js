@@ -1,6 +1,7 @@
 /* eslint-disable */
 import legacyPlugin from '@vitejs/plugin-legacy';
 import ViteRequireContext from '@originjs/vite-plugin-require-context'
+import { viteCommonjs } from '@originjs/vite-plugin-commonjs'
 import * as path from 'path';
 import {
   createVuePlugin
@@ -61,7 +62,8 @@ export default ({
       createVuePlugin(), legacyPlugin({
         targets: ['Android > 39', 'Chrome >= 60', 'Safari >= 10.1', 'iOS >= 10.3', 'Firefox >= 54', 'Edge >= 15'],
       }),
-      ViteRequireContext()
+      ViteRequireContext(),
+      viteCommonjs()
     ],
     css: {
       preprocessorOptions: {

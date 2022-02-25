@@ -23,5 +23,5 @@ pnpm-debug.log*
 *.sw?
 
 # lock
-*-lock.*
-*.lock
+package-lock.json
+pnpm-lock.yaml

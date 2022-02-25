@@ -6,6 +6,8 @@ import VueCompositionAPI from "@vue/composition-api";
 Vue.use(VueCompositionAPI);
 Vue.config.productionTip = false;
 
+import '@/styles/aggrid.scss' // global css
+
 LicenseManager.prototype.isDisplayWatermark = () => false;
 LicenseManager.prototype.outputMissingLicenseKey = () => { };
 
