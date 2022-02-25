@@ -8,9 +8,9 @@
   },
   "dependencies": {
     "@vue/composition-api": "^1.4.3",
-    "ag-grid-community": "^25.0.0",
-    "ag-grid-enterprise": "^25.0.0",
-    "ag-grid-vue": "^25.0.0",
+    "ag-grid-community": "^27.0.0",
+    "ag-grid-enterprise": "^27.0.0",
+    "ag-grid-vue": "^27.0.0",
     "core-js": "^3.6.5",
     "vue": "^2.6.11",
     "vue-property-decorator": "^8.5.1"
@@ -18,9 +18,8 @@
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",
     "@vue/cli-service": "~4.5.0",
-    "node-sass": "^4.7.2",
-    "sass-loader": "7.0.3",
-    "sass-resources-loader": "^2.2.1",
+    "sass": "^1.25.0",
+    "sass-loader": "^8.0.2",
     "vue-template-compiler": "^2.6.11"
   }
 }
